@@ -15,12 +15,12 @@ mkdir results work_dirs
 ```
 
 ## Best Practices with Docker
-We recommend using Docker to containerize all the complex dependencies when building this project. We provide example [Dockerfiles](https://github.com/lexisnexis-risk-open-source/ledetection/docker) pertaining to whether CUDA 10.x or CUDA 11.x is used.
+We recommend using Docker to containerize all the complex dependencies when building this project. We provide example [Dockerfiles](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/docker) pertaining to whether CUDA 10.x or CUDA 11.x is used.
 
 - For Ampere GPU architectures (compute capability 8.6), such as GeForce 30 series and NVIDIA A100, CUDA 11.x is required.
 - For older NVIDIA GPUs, CUDA 11 is backward compatible, but CUDA 10.x offers better compatibility and is more lightweight.
 
-Make sure the GPU driver satisfies the minimum version requirements, according to [these NVIDIA release notes](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html). Also, ensure that our [docker version](https://docs.docker.com/engine/install/) is >=19.03.
+Make sure the GPU driver satisfies the minimum version requirements, according to [these NVIDIA release notes](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html). Also, ensure that the [docker version](https://docs.docker.com/engine/install/) is >=19.03.
 
 ### Build
 

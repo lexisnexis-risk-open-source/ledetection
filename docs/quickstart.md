@@ -36,13 +36,13 @@ Following MMDetection usage, we train and evaluate detection models via configur
 
 | Config Name | Labeled Dataset | Unlabeled Dataset | Detection Mode |
 |-------------|-----------------|-------------------|--------|
-| [faster\_rcnn\_r50\_caffe\_fpn\_voc07.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/supervised/faster_rcnn_r50_caffe_fpn_voc07.py) | VOC07 | N/A | Supervised |
-| [faster\_rcnn\_r50\_caffe\_fpn\_voc0712.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/supervised/faster_rcnn_r50_caffe_fpn_voc0712.py) | VOC0712 | N/A | Supervised |
-| [semi\_supervised\_faster\_rcnn\_r50\_caffe\_fpn\_voc.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/semi_supervised/semi_supervised_faster_rcnn_r50_caffe_fpn_voc.py) | VOC07 | VOC12 | Semi-Supervised |
-| [semi\_supervised\_faster\_rcnn\_r50\_caffe\_fpn\_voc\_coco20.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/semi_supervised/semi_supervised_faster_rcnn_r50_caffe_fpn_voc_coco20.py) | VOC07 | VOC12 + COCO20 | Semi-Supervised |
-| [faster\_rcnn\_r50\_caffe\_fpn\_coco.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/supervised/faster_rcnn_r50_caffe_fpn_coco.py) | COCO 2017 | N/A | Supervised |
-| [semi\_supervised\_faster\_rcnn\_r50\_caffe\_fpn\_coco.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/semi_supervised/semi_supervised_faster_rcnn_r50_caffe_fpn_coco.py) | COCO 2017 | COCO 2017 | Semi-Supervised |
-| [faster\_rcnn\_r50\_caffe\_fpn\_coco\_30shot.py](https://github.com/lexisnexis-risk-open-source/ledetection/configs/few_shot/faster_rcnn_r50_caffe_fpn_coco_30shot.py) | COCO 2017 | N/A | Few-Shot |
+| [faster\_rcnn\_r50\_caffe\_fpn\_voc07.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/supervised/faster_rcnn_r50_caffe_fpn_voc07.py) | VOC07 | N/A | Supervised |
+| [faster\_rcnn\_r50\_caffe\_fpn\_voc0712.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/supervised/faster_rcnn_r50_caffe_fpn_voc0712.py) | VOC0712 | N/A | Supervised |
+| [semi\_supervised\_faster\_rcnn\_r50\_caffe\_fpn\_voc.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/semi_supervised/semi_supervised_faster_rcnn_r50_caffe_fpn_voc.py) | VOC07 | VOC12 | Semi-Supervised |
+| [semi\_supervised\_faster\_rcnn\_r50\_caffe\_fpn\_voc\_coco20.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/semi_supervised/semi_supervised_faster_rcnn_r50_caffe_fpn_voc_coco20.py) | VOC07 | VOC12 + COCO20 | Semi-Supervised |
+| [faster\_rcnn\_r50\_caffe\_fpn\_coco.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/supervised/faster_rcnn_r50_caffe_fpn_coco.py) | COCO 2017 | N/A | Supervised |
+| [semi\_supervised\_faster\_rcnn\_r50\_caffe\_fpn\_coco.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/semi_supervised/semi_supervised_faster_rcnn_r50_caffe_fpn_coco.py) | COCO 2017 | COCO 2017 | Semi-Supervised |
+| [faster\_rcnn\_r50\_caffe\_fpn\_coco\_30shot.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/few_shot/faster_rcnn_r50_caffe_fpn_coco_30shot.py) | COCO 2017 | N/A | Few-Shot |
 
 ### Train on a Single GPU
 We use the `tools/train.py` utility to launch model training on a single GPU. An example usage is as follows.
