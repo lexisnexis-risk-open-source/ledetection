@@ -19,25 +19,25 @@ LEDetection is versatile to support multiple detection paradigms including super
 
 **Supervised Detection**
 
-Use LEDetection to train popular supervised detection frameworks such as Faster R-CNN, Mask R-CNN, etc. See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/configs/supervised).
+Use LEDetection to train popular supervised detection frameworks such as Faster R-CNN, Mask R-CNN, etc. See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/configs/supervised).
 
 **Semi-Supervised Detection**
 
-Add unlabeled data to your LEDetection pipeline to enable robust semi-supervised detection using the implemented [Soft Teacher](https://arxiv.org/abs/2106.09018) and [SoftER Teacher](https://arxiv.org/abs/2303.05739) models. See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/configs/semi_supervised).
+Add unlabeled data to your LEDetection pipeline to enable robust semi-supervised detection using the implemented [Soft Teacher](https://arxiv.org/abs/2106.09018) and [SoftER Teacher](https://arxiv.org/abs/2303.05739) models. See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/configs/semi_supervised).
 
 **Few-Shot Detection**
 
-LEDetection models can be re-purposed into label-efficient few-shot detectors following the simple yet effective two-stage fine-tuning approach [TFA](https://arxiv.org/abs/2003.06957). See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/configs/few_shot).
+LEDetection models can be re-purposed into label-efficient few-shot detectors following the simple yet effective two-stage fine-tuning approach [TFA](https://arxiv.org/abs/2003.06957). See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/configs/few_shot).
 
 **Semi-Supervised Few-Shot Detection**
 
-Why not combine both semi-supervised and few-shot training protocols, on datasets with limited labels, to enable semi-supervised few-shot detection, as described in our [paper](https://arxiv.org/abs/2303.05739)? See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/configs/semi_few_shot).
+Why not combine both semi-supervised and few-shot training protocols, on datasets with limited labels, to enable semi-supervised few-shot detection, as described in our [paper](https://arxiv.org/abs/2303.05739)? See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/configs/semi_few_shot).
 
 ## Get Started
 Getting started is quick and easy:
 
-1. Please refer to this [installation guide](https://github.com/lexisnexis-risk-open-source/ledetection/docs/installation.md);
-2. Have fun with this [quickstart guide](https://github.com/lexisnexis-risk-open-source/ledetection/docs/quickstart.md).
+1. Please refer to this [installation guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/installation.md);
+2. Have fun with this [quickstart guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/quickstart.md).
 
 ## License
 We release LEDetection under the permissive Apache 2.0 license. Any contributions made will also be subject to the same licensing.
