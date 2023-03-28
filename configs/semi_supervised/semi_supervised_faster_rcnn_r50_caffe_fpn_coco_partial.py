@@ -1,6 +1,6 @@
-_base_ = "../_base_/semi_supervised_voc.py"
-dataset_type = "VOCDataset"
-data_root = "data/VOCdevkit/"
+_base_ = "../_base_/semi_supervised_coco.py"
+dataset_type = "CocoDataset"
+data_root = "data/coco/"
 model = dict(
     backbone=dict(
         norm_cfg=dict(requires_grad=False),
@@ -10,11 +10,6 @@ model = dict(
         init_cfg=dict(
             type="Pretrained", checkpoint="open-mmlab://detectron2/resnet50_caffe"
         ),
-    ),
-    roi_head=dict(
-        bbox_head=dict(
-            num_classes=20,
-        )
     ),
 )
 semi_wrapper = dict(
@@ -29,9 +24,9 @@ semi_wrapper = dict(
         jitter_times=10,
         jitter_scale=0.06,
         min_pseudo_box_size=0,
-        unsup_weight_alpha=2.0,
-        unsup_weight_beta=4.0,
-        unsup_weight_warmup=1000,
+        unsup_weight_alpha=4.0,
+        unsup_weight_beta=8.0,
+        unsup_weight_warmup=10000,
         sim_cls_loss=dict(
             type="CrossEntropySimilarityLoss",
             reduction="mean",
@@ -43,60 +38,55 @@ semi_wrapper = dict(
     test_cfg=dict(inference_on="teacher"),
 )
 data = dict(
-    samples_per_gpu=8,
-    workers_per_gpu=6,
+    samples_per_gpu=5,
+    workers_per_gpu=5,
     train=dict(
         sup=dict(
             type="RepeatDataset",
             times=3,
             dataset=dict(
                 type=dataset_type,
-                ann_file=[
-                    data_root + "VOC2007/ImageSets/Main/trainval.txt",
-                ],
-                img_prefix=[data_root + "VOC2007/"],
+                ann_file=data_root + "annotations/semi_supervised/instances_train2017.${fold}@${percent}.json",
+                img_prefix=data_root + "train2017/",
                 filter_empty_gt=True,
             )
         ),
         unsup=dict(
-            type="RepeatDataset",
-            times=1,
-            dataset=dict(
-                type=dataset_type,
-                ann_file=[
-                    data_root + "VOC2012/ImageSets/Main/trainval.txt",
-                ],
-                img_prefix=[data_root + "VOC2012/"],
-                filter_empty_gt=False,
-            )
-        )
+            type=dataset_type,
+            ann_file=data_root + "annotations/semi_supervised/instances_train2017.${fold}@${percent}-unlabeled.json",
+            img_prefix=data_root + "train2017/",
+            filter_empty_gt=False,
+        ),
     ),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + "VOC2007/ImageSets/Main/test.txt",
-        img_prefix=data_root + "VOC2007/",
+        ann_file=data_root + "annotations/instances_val2017.json",
+        img_prefix=data_root + "val2017/",
         filter_empty_gt=True,
     ),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + "VOC2007/ImageSets/Main/test.txt",
-        img_prefix=data_root + "VOC2007/",
+        ann_file=data_root + "annotations/instances_val2017.json",
+        img_prefix=data_root + "val2017/",
         filter_empty_gt=True,
     ),
     sampler=dict(
         train=dict(
-            sample_ratio=[1, 1],
+            sample_ratio=[1, 4],
             epoch_length=7330,
         )
     ),
+
 )
+fold = 1
+percent = 1
 model_type = "SoftTeacher"
-evaluation = dict(type="SubModulesDistEvalHook", interval=2000, metric="mAP")
+evaluation = dict(type="SubModulesDistEvalHook", metric="bbox", interval=4000)
 optimizer = dict(type="SGD", lr=0.01, momentum=0.9, weight_decay=0.0001)
-lr_config = dict(step=[12000, 16000])
-runner = dict(_delete_=True, type="IterBasedRunner", max_iters=18000)
-checkpoint_config = dict(by_epoch=False, interval=2000, max_keep_ckpts=1)
+lr_config = dict(step=[120000, 160000])
+runner = dict(_delete_=True, type="IterBasedRunner", max_iters=180000)
+checkpoint_config = dict(by_epoch=False, interval=4000, max_keep_ckpts=1)
 auto_resume = False
 fp16 = dict(loss_scale="dynamic")
-work_dir = "work_dirs/${cfg_name}/${model_type}"
+work_dir = "work_dirs/${cfg_name}/${model_type}/${percent}/${fold}"
 

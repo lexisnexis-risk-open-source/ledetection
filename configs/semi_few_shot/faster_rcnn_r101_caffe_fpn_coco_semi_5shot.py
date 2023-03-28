@@ -23,8 +23,9 @@ model = dict(
         norm_eval=True,
         frozen_stages=4,
         style="caffe",
+        depth=101,
         init_cfg=dict(
-            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet50_caffe"
+            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet101_caffe"
         ),
     ),
     neck=dict(frozen=True),
@@ -64,15 +65,17 @@ data = dict(
     ),
 )
 fold = "seed1"
-shot = "30shot"
+shot = "5shot"
+seed = 1
+percent = 1
 model_type = "SoftTeacher"
-evaluation = dict(interval=4000 * 4, metric="bbox")
+evaluation = dict(interval=4000*2, metric="bbox")
 optimizer = dict(type="SGD", lr=0.001, momentum=0.9, weight_decay=0.0001)
-lr_config = dict(step=[216000])
-runner = dict(_delete_=True, type="IterBasedRunner", max_iters=240000)
+lr_config = dict(step=[72000])
+runner = dict(_delete_=True, type="IterBasedRunner", max_iters=80000)
 checkpoint_config = dict(by_epoch=False, interval=4000, max_keep_ckpts=1)
 auto_resume = False
 fp16 = dict(loss_scale="dynamic")
-load_from = "results/coco_few_shot_base60/coco2017/${model_type}/model_reset_combine.pth"
-work_dir = "work_dirs/${cfg_name}/${model_type}/${shot}/${fold}/"
+load_from = "results/coco_semi_few_base60/${model_type}/${percent}/${seed}/model_reset_combine.pth"
+work_dir = "work_dirs/${cfg_name}/${model_type}/${percent}/${seed}/${shot}/${fold}/"
 

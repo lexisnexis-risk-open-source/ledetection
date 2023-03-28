@@ -1,7 +1,7 @@
-_base_ = "../supervised/base_coco.py"
+_base_ = "../_base_/supervised_coco.py"
 dataset_type = "CocoDataset"
 data_root = "data/coco/"
-classes = (
+CLASSES = (
     "person", "bicycle", "car", "motorcycle", "airplane", "bus",
     "train", "truck", "boat", "traffic light", "fire hydrant",
     "stop sign", "parking meter", "bench", "bird", "cat", "dog",
@@ -45,7 +45,7 @@ data = dict(
         dataset=dict(
             type=dataset_type,
             ann_file=[
-                data_root + "annotations/few_shot/cocosplit2017/${fold}/full_box_${shot}_" + c + "_trainval.json" for c in classes
+                data_root + "annotations/few_shot/cocosplit2017/${fold}/full_box_${shot}_" + c + "_trainval.json" for c in CLASSES
             ],
             img_prefix=data_root + "train2017/",
             filter_empty_gt=True,
@@ -78,5 +78,4 @@ auto_resume = False
 fp16 = dict(loss_scale="dynamic")
 load_from = "results/coco_semi_few_base60/${model_type}/${percent}/${seed}/model_reset_combine.pth"
 work_dir = "work_dirs/${cfg_name}/${model_type}/${percent}/${seed}/${shot}/${fold}/"
-
 
