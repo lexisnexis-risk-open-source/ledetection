@@ -3,14 +3,23 @@ from collections import OrderedDict
 from mmcv.utils import print_log
 
 from mmdet.core import eval_recalls
-from mmdet.datasets import VOCDataset as BaseVOCDataset
-from mmdet.datasets.builder import DATASETS
+from mmdet.datasets import DATASETS, XMLDataset
 
 from ledet.core.evaluation import eval_map
 
 
 @DATASETS.register_module(force=True)
-class VOCDataset(BaseVOCDataset):
+class VOCDataset(XMLDataset):
+    
+    CLASSES = (
+        'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
+        'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike',
+        'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor'
+    )
+    
+    def __init__(self, **kwargs):
+        super(VOCDataset, self).__init__(**kwargs)
+    
     def evaluate(self,
                  results,
                  metric='mAP',
@@ -91,4 +100,3 @@ class VOCDataset(BaseVOCDataset):
                 for i, num in enumerate(proposal_nums):
                     eval_results[f'AR@{num}'] = ar[i]
         return eval_results
-
