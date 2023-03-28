@@ -163,7 +163,7 @@ class SoftTeacher(MultiStreamDetector):
                         :, 4
                     ],  # TODO: replace with foreground score, here is classification score,
                     thr=self.train_cfg.rpn_pseudo_threshold,
-                    min_size=self.train_cfg.min_pseduo_box_size,
+                    min_size=self.train_cfg.min_pseudo_box_size,
                 )
                 gt_bboxes.append(bbox)
             log_every_n(
@@ -394,7 +394,7 @@ class SoftTeacher(MultiStreamDetector):
                         proposal_label,
                         proposal[:, -1],
                         thr=thr,
-                        min_size=self.train_cfg.min_pseduo_box_size,
+                        min_size=self.train_cfg.min_pseudo_box_size,
                     )
                     for proposal, proposal_label in zip(
                         proposal_list, proposal_label_list
