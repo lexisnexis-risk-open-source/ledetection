@@ -1,4 +1,4 @@
-_base_ = "base_coco.py"
+_base_ = "../_base_/semi_supervised_coco.py"
 dataset_type = "CocoDataset"
 data_root = "data/coco/"
 model = dict(
@@ -23,11 +23,10 @@ semi_wrapper = dict(
         reg_pseudo_threshold=0.02,
         jitter_times=10,
         jitter_scale=0.06,
-        min_pseduo_box_size=0,
-        unsup_weight_alpha=4.0,
-        unsup_weight_beta=8.0,
+        min_pseudo_box_size=0,
+        unsup_weight_alpha=2.0,
+        unsup_weight_beta=4.0,
         unsup_weight_warmup=10000,
-        debug_mode=True,
         sim_cls_loss=dict(
             type="CrossEntropySimilarityLoss",
             reduction="mean",
@@ -39,23 +38,23 @@ semi_wrapper = dict(
     test_cfg=dict(inference_on="teacher"),
 )
 data = dict(
-    samples_per_gpu=5,
-    workers_per_gpu=5,
+    samples_per_gpu=8,
+    workers_per_gpu=6,
     train=dict(
         sup=dict(
             type="RepeatDataset",
-            times=3,
+            times=1,
             dataset=dict(
                 type=dataset_type,
-                ann_file=data_root + "annotations/semi_supervised/instances_train2017.${fold}@${percent}.json",
+                ann_file=data_root + "annotations/instances_train2017.json",
                 img_prefix=data_root + "train2017/",
                 filter_empty_gt=True,
             )
         ),
         unsup=dict(
             type=dataset_type,
-            ann_file=data_root + "annotations/semi_supervised/instances_train2017.${fold}@${percent}-unlabeled.json",
-            img_prefix=data_root + "train2017/",
+            ann_file=data_root + "annotations/instances_unlabeled2017.json",
+            img_prefix=data_root + "unlabeled2017/",
             filter_empty_gt=False,
         ),
     ),
@@ -73,23 +72,19 @@ data = dict(
     ),
     sampler=dict(
         train=dict(
-            sample_ratio=[1, 4],
+            sample_ratio=[1, 1],
             epoch_length=7330,
         )
     ),
 
 )
-fold = 1
-percent = 1
 model_type = "SoftTeacher"
-evaluation = dict(type="SubModulesDistEvalHook", metric="bbox", interval=4000)
+evaluation = dict(type="SubModulesDistEvalHook", metric="bbox", interval=4000 * 4)
 optimizer = dict(type="SGD", lr=0.01, momentum=0.9, weight_decay=0.0001)
-lr_config = dict(step=[120000, 160000])
-runner = dict(_delete_=True, type="IterBasedRunner", max_iters=180000)
+lr_config = dict(step=[120000 * 4, 160000 * 4])
+runner = dict(_delete_=True, type="IterBasedRunner", max_iters=180000 * 4)
 checkpoint_config = dict(by_epoch=False, interval=4000, max_keep_ckpts=1)
 auto_resume = False
 fp16 = dict(loss_scale="dynamic")
-work_dir = "work_dirs/${cfg_name}/${model_type}/${percent}/${fold}"
-
-
+work_dir = "work_dirs/${cfg_name}/${model_type}"
 

@@ -1,4 +1,4 @@
-_base_ = "base_voc_coco20.py"
+_base_ = "../_base_/semi_supervised_voc_coco20.py"
 data_root = "data/VOCdevkit/"
 model = dict(
     backbone=dict(
@@ -27,7 +27,7 @@ semi_wrapper = dict(
         reg_pseudo_threshold=0.02,
         jitter_times=10,
         jitter_scale=0.06,
-        min_pseduo_box_size=0,
+        min_pseudo_box_size=0,
         unsup_weight_alpha=2.0,
         unsup_weight_beta=4.0,
         unsup_weight_warmup=1000,
@@ -86,7 +86,4 @@ checkpoint_config = dict(by_epoch=False, interval=3000, max_keep_ckpts=1)
 auto_resume = False
 fp16 = dict(loss_scale="dynamic")
 work_dir = "work_dirs/${cfg_name}/${model_type}"
-
-
-
 
