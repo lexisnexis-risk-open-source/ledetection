@@ -26,23 +26,29 @@ def parse_args():
         "--method",
         choices=["combine", "remove", "randinit"],
         required=True,
-        help="Surgery method. combine = "
-        "combine checkpoints. remove = for fine-tuning on "
+        help="Surgery method. `combine`: "
+        "combine checkpoints. `remove`: for fine-tuning on "
         "novel dataset, remove the final layer of the "
-        "base detector. randinit = randomly initialize "
+        "base detector. `randinit`: randomly initialize "
         "novel weights.",
     )
-    # Targets
     parser.add_argument(
         "--keep-student-teacher",
         action="store_true",
         help="Perform student-teacher multi-branch surgery."
     )
+    # Targets
     parser.add_argument(
-        "--tar-name",
+        "--target-size",
+        type=int,
+        default=20,
+        help="Number of target classes.",
+    )
+    parser.add_argument(
+        "--target-name",
         type=str,
         default="model_reset",
-        help="Name of the new ckpt.",
+        help="Name of the new checkpoint.",
     )
     # Dataset
     parser.add_argument(
@@ -143,18 +149,18 @@ def combine_ckpts(args):
 
 def surgery_loop(args, surgery):
     # Load checkpoints
-    ckpt = torch.load(args.src1)
+    ckpt = torch.load(args.src1, map_location=torch.device("cpu"))
     if not args.keep_student_teacher:
         ckpt = extract_teacher(ckpt)
     if args.method == "combine":
-        ckpt2 = torch.load(args.src2)
+        ckpt2 = torch.load(args.src2, map_location=torch.device("cpu"))
         if not args.keep_student_teacher:
             ckpt2 = extract_teacher(ckpt2)
-        save_name = args.tar_name + "_combine.pth"
+        save_name = args.target_name + "_combine.pth"
     else:
         ckpt2 = None
         save_name = (
-            args.tar_name
+            args.target_name
             + "_"
             + ("remove" if args.method == "remove" else "surgery")
             + ".pth"
@@ -246,12 +252,10 @@ if __name__ == "__main__":
         IDMAP = {v: i for i, v in enumerate(ALL_CLASSES)}
         TAR_SIZE = 80
     else:
-        # VOC
-        TAR_SIZE = 20
+        # VOC-like format
+        TAR_SIZE = args.target_size
 
     if args.method == "combine":
         combine_ckpts(args)
     else:
         ckpt_surgery(args)
-
-
