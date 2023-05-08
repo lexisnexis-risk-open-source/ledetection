@@ -78,43 +78,46 @@ Here, we assume that the VOC data source (and others) is stored on the local mac
 Then, in our config files, we just need to point to the proper paths of data sources and other artifacts needed by the job, which are *relative to the working directory of the container*. The default working directory of the container is set by `docker run -w ${APP_HOME_DIR}/ledetection`. If everything is configured correctly, we should be able to train and test models using LEDetection!
 
 ## Anaconda Environment
-Alternatively, we can install LEDetection and its dependencies using an Anaconda environment.
+Alternatively, we can install LEDetection and its dependencies using an Anaconda environment. For the sake of clarity, we will assume all installation steps are conducted from the directory `/workspace`, although you can complete the installation from any directory you wish.
 
 **Step 1.** Download and install Anaconda from the [official website](https://www.anaconda.com/products/distribution).
 
-**Step 2.** Clone `mmdetection` to enable access to the `mmdetection` configuration files, which are needed for training models. Make sure to clone the repo in the same directory as `ledetection`. For example, if you cloned `ledetection` at
+**Step 2.** Clone the `ledetecion` repository into `/workspace`.
 
 ```bash
-/workspace/ledetection
+cd /workspace \
+    && git clone https://github.com/lexisnexis-risk-open-source/ledetection.git
 ```
 
-then clone `mmdetection` to
+**Step 3.** Clone `mmdetection` into `/workspace` to enable access to the `mmdetection` configuration files, which are needed for training models.
 
 ```bash
-/workspace/mmdetection
+cd /workspace \
+    && git clone https://github.com/open-mmlab/mmdetection.git \
+    && cd mmdetection \
+    && git checkout v2.28.0 \
+    && cd ..
 ```
 
-Once you are in the correct directory (i.e., `../ledetection`), run
+**Step 4.** Create the conda environment.
 
 ```bash
-git clone https://github.com/open-mmlab/mmdetection.git && cd mmdetection && git checkout v2.28.0 && cd ..
-```
-
-**Step 3.** Create the conda environment. Make sure you are in the root of the `ledetection` repository and run
-
-```bash
+cd /workspace/ledetection
 conda env create -f environment-cpu.yaml
 ```
 
 or
 
 ```bash
+cd /workspace/ledetection
 conda env create -f environment-gpu.yaml
 ```
 
-**Step 4.** Verify the installation.
+**Step 5.** Verify the installation.
 
 ```bash
+cd /workspace/ledetection
+
 # No import error.
 python -c "import ledet; print(ledet.__version__)"
 # Example output: 0.0.1
