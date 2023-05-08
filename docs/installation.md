@@ -82,7 +82,25 @@ Alternatively, we can install LEDetection and its dependencies using an Anaconda
 
 **Step 1.** Download and install Anaconda from the [official website](https://www.anaconda.com/products/distribution).
 
-**Step 2.** Create the conda environment. Make sure you are in the root of the `ledet` repository and run
+**Step 2.** Clone `mmdetection` to enable access to the `mmdetection` configuration files, which are needed for training models. Make sure to clone the repo in the same directory as `ledetection`. For example, if you cloned `ledetection` at
+
+```bash
+/workspace/ledetection
+```
+
+then clone `mmdetection` to
+
+```bash
+/workspace/mmdetection
+```
+
+Once you are in the correct directory (i.e., `../ledetection`), run
+
+```bash
+git clone https://github.com/open-mmlab/mmdetection.git && cd mmdetection && git checkout v2.28.0 && cd ..
+```
+
+**Step 3.** Create the conda environment. Make sure you are in the root of the `ledetection` repository and run
 
 ```bash
 conda env create -f environment-cpu.yaml
@@ -94,7 +112,7 @@ or
 conda env create -f environment-gpu.yaml
 ```
 
-**Step 3.** Verify the installation.
+**Step 4.** Verify the installation.
 
 ```bash
 # No import error.
