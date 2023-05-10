@@ -87,6 +87,11 @@ Alternatively, we can install LEDetection and its dependencies using an Anaconda
 ```bash
 cd /workspace \
     && git clone https://github.com/lexisnexis-risk-open-source/ledetection.git
+# Since we develop and run ledetection directly,
+# we create some new directories inside ledetection
+# to store development artifacts.
+cd ledetection \
+    && mkdir results work_dirs
 ```
 
 **Step 3.** Clone `mmdetection` into `/workspace` to enable access to the `mmdetection` configuration files, which are needed for training models.
