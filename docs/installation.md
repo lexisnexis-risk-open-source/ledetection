@@ -78,79 +78,51 @@ Here, we assume that the VOC data source (and others) is stored on the local mac
 Then, in our config files, we just need to point to the proper paths of data sources and other artifacts needed by the job, which are *relative to the working directory of the container*. The default working directory of the container is set by `docker run -w ${APP_HOME_DIR}/ledetection`. If everything is configured correctly, we should be able to train and test models using LEDetection!
 
 ## Anaconda Environment
-Alternatively, we can install LEDetection and its dependencies using an Anaconda environment.
+Alternatively, we can install LEDetection and its dependencies using an Anaconda environment. For the sake of clarity, we will assume all installation steps are conducted from the directory `/workspace`, although you can complete the installation from any directory you wish.
 
 **Step 1.** Download and install Anaconda from the [official website](https://www.anaconda.com/products/distribution).
 
-**Step 2.** Create a conda environment with Python 3.8 and activate it.
+**Step 2.** Clone the `ledetecion` repository into `/workspace`.
 
 ```bash
-CONDA_ENV=ledet-pytorch1.11-cuda11.3
-conda create \
-    --name ${CONDA_ENV} \
-    python=3.8 ipython ipykernel -y
-conda activate ${CONDA_ENV}
+cd /workspace \
+    && git clone https://github.com/lexisnexis-risk-open-source/ledetection.git
+# Since we develop and run ledetection directly,
+# we create some new directories inside ledetection
+# to store development artifacts.
+cd ledetection \
+    && mkdir results work_dirs
 ```
 
-**Step 3.** Install PyTorch following [official instructions](https://pytorch.org/get-started/previous-versions/). Here, we install PyTorch=1.11.0 with CUDA=11.3.
+**Step 3.** Clone `mmdetection` into `/workspace` to enable access to the `mmdetection` configuration files, which are needed for training models.
 
 ```bash
-conda install \
-    pytorch==1.11.0 \
-    torchvision==0.12.0 \
-    torchaudio==0.11.0 \
-    cudatoolkit=11.3 -c pytorch
+cd /workspace \
+    && git clone https://github.com/open-mmlab/mmdetection.git \
+    && cd mmdetection \
+    && git checkout v2.28.0 \
+    && cd ..
 ```
 
-**Step 4.** Install MMCV=1.7.1 from a prebuilt wheel.
+**Step 4.** Create the conda environment.
 
 ```bash
-conda clean -y --all
-pip install \
-    --no-cache-dir \
-    --upgrade pip wheel setuptools
-pip install \
-    --no-cache-dir mmcv-full==1.7.1 \
-    -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.11.0/index.html
+cd /workspace/ledetection
+conda env create -f environment-cpu.yaml
 ```
 
-**Step 5.** Install the optional LVIS Dataset API.
+or
 
 ```bash
-pip install \
-    --no-cache-dir \
-    git+https://github.com/lvis-dataset/lvis-api.git
+cd /workspace/ledetection
+conda env create -f environment-gpu.yaml
 ```
 
-**Step 6.** Install MMDetection from source and pin to v2.28.0. We have also tested with MMDetection v2.16.0.
+**Step 5.** Verify the installation.
 
 ```bash
-git clone \
-    https://github.com/open-mmlab/mmdetection.git \
-    ~/mmdetection
-cd ~/mmdetection
-git checkout v2.28.0
-pip install --no-cache-dir -r requirements/build.txt
-pip install --no-cache-dir -r requirements/optional.txt
-# MMDetection v2.16.0 does not support albumentations; comment out the next line if using v2.16.0.
-pip install --no-cache-dir -r requirements/albu.txt
-pip install --no-cache-dir -e .
-# "-e" means installing the project in editable mode,
-# thus any local modifications made to the code
-# will take effect without reinstallation.
-```
+cd /workspace/ledetection
 
-**Step 7.** Install LEDetection.
-
-```bash
-cd ~/ledetection
-pip install --no-cache-dir -r requirements.txt
-pip install --no-cache-dir -e .
-```
-
-**Step 8.** Verify the installation.
-
-```bash
 # No import error.
 python -c "import ledet; print(ledet.__version__)"
 # Example output: 0.0.1
