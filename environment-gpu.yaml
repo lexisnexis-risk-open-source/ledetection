@@ -12,6 +12,6 @@ dependencies:
     - torchaudio==0.11.0
     - mmcv-full==1.7.1
     - lvis@git+https://github.com/lvis-dataset/lvis-api
-    - -e ../mmdetection
+    - mmdet==2.28.0
     - -r requirements.txt
     - -e .
