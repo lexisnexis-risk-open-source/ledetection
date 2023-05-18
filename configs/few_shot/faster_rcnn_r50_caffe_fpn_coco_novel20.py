@@ -60,7 +60,7 @@ fold = "seed1"
 shot = "30shot"
 model_type = "FasterRCNN"
 optimizer = dict(type="SGD", lr=0.01, momentum=0.9, weight_decay=0.0001)
-lr_config = dict(policy="fixed")
+lr_config = dict(_delete_=True, policy="fixed")
 runner = dict(_delete_=True, type="IterBasedRunner", max_iters=10000)
 evaluation = dict(interval=1000, metric="bbox")
 checkpoint_config = dict(by_epoch=False, interval=1000, max_keep_ckpts=1)
