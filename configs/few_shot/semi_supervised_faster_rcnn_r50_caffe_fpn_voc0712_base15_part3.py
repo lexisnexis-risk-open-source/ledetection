@@ -1,27 +1,23 @@
-_base_ = "../_base_/semi_supervised_coco.py"
-dataset_type = "CocoDataset"
-data_root = "data/coco/"
+_base_ = "../_base_/semi_supervised_voc.py"
+dataset_type = "VOCDataset"
+data_root = "data/VOCdevkit/"
 CLASSES = (
-    "airplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair",
-    "cow", "dining table", "dog", "horse", "motorcycle", "person", "potted plant",
-    "sheep", "couch", "train", "tv"
+    "aeroplane", "bicycle", "bird", "bottle", "bus", "car",
+    "chair", "cow", "diningtable", "dog", "horse", "person",
+    "pottedplant", "train", "tvmonitor"
 )
 model = dict(
     backbone=dict(
         norm_cfg=dict(requires_grad=False),
         norm_eval=True,
-        frozen_stages=4,
+        frozen_stages=1,
         style="caffe",
-        depth=101,
         init_cfg=dict(
-            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet101_caffe"
+            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet50_caffe"
         ),
     ),
-    neck=dict(frozen=True),
-    rpn_head=dict(frozen=True),
     roi_head=dict(
         bbox_head=dict(
-            frozen_layer_names=["shared_fcs"],
             num_classes=len(CLASSES),
         )
     ),
@@ -57,36 +53,46 @@ data = dict(
     train=dict(
         sup=dict(
             type="RepeatDataset",
-            times=5,
+            times=3,
             dataset=dict(
                 type=dataset_type,
                 classes=CLASSES,
                 ann_file=[
-                    data_root + "annotations/few_shot/cocosplit2017/${fold}/full_box_${shot}_" + c + "_trainval.json" for c in CLASSES
+                    data_root + "VOC2007/ImageSets/Main/trainval.txt",
+                    data_root + "VOC2012/ImageSets/Main/trainval.txt"
                 ],
-                img_prefix=data_root + "train2017/",
+                img_prefix=[data_root + "VOC2007/", data_root + "VOC2012/"],
                 filter_empty_gt=True,
             )
         ),
         unsup=dict(
-            type=dataset_type,
-            ann_file=data_root + "annotations/instances_unlabeled2017.json",
-            img_prefix=data_root + "unlabeled2017/",
-            filter_empty_gt=False,
-        ),
+            type="RepeatDataset",
+            times=3,
+            dataset=dict(
+                type="CocoDataset",
+                classes=(
+                    "airplane", "bicycle", "bird", "bottle", "bus", "car", "chair",
+                    "cow", "dining table", "dog", "horse", "person", "potted plant",
+                    "train", "tv"
+                ),
+                ann_file="data/coco/annotations/instances_train2017.json",
+                img_prefix="data/coco/train2017/",
+                filter_empty_gt=True,
+            )
+        )
     ),
     val=dict(
         type=dataset_type,
         classes=CLASSES,
-        ann_file=data_root + "annotations/instances_val2017.json",
-        img_prefix=data_root + "val2017/",
+        ann_file=data_root + "VOC2007/ImageSets/Main/test.txt",
+        img_prefix=data_root + "VOC2007/",
         filter_empty_gt=True,
     ),
     test=dict(
         type=dataset_type,
         classes=CLASSES,
-        ann_file=data_root + "annotations/instances_val2017.json",
-        img_prefix=data_root + "val2017/",
+        ann_file=data_root + "VOC2007/ImageSets/Main/test.txt",
+        img_prefix=data_root + "VOC2007/",
         filter_empty_gt=True,
     ),
     sampler=dict(
@@ -96,16 +102,12 @@ data = dict(
         )
     ),
 )
-fold = "seed1"
-shot = "30shot"
-model_type = "SoftERTeacher"
-evaluation = dict(type="SubModulesDistEvalHook", metric="bbox", interval=4000 * 4)
+model_type = "SoftTeacher"
+evaluation = dict(type="SubModulesDistEvalHook", interval=4000, metric="mAP")
 optimizer = dict(type="SGD", lr=0.01, momentum=0.9, weight_decay=0.0001)
-lr_config = dict(_delete_=True, policy="fixed")
-runner = dict(_delete_=True, type="IterBasedRunner", max_iters=48000)
+lr_config = dict(step=[40000, 52000])
+runner = dict(_delete_=True, type="IterBasedRunner", max_iters=60000)
 checkpoint_config = dict(by_epoch=False, interval=4000, max_keep_ckpts=1)
 auto_resume = False
 fp16 = dict(loss_scale="dynamic")
-load_from = "results/coco_few_shot_base60/coco2017/${model_type}/r101/model_reset_remove.pth"
-work_dir = "work_dirs/${cfg_name}/${model_type}/${shot}/${fold}/"
-
+work_dir = "work_dirs/${cfg_name}/${model_type}"
