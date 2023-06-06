@@ -78,11 +78,11 @@ Here, we assume that the VOC data source (and others) is stored on the local mac
 Then, in our config files, we just need to point to the proper paths of data sources and other artifacts needed by the job, which are *relative to the working directory of the container*. The default working directory of the container is set by `docker run -w ${APP_HOME_DIR}/ledetection`. If everything is configured correctly, we should be able to train and test models using LEDetection!
 
 ## Anaconda Environment
-Alternatively, we can install LEDetection and its dependencies using an Anaconda environment. For the sake of clarity, we will assume all installation steps are conducted from the directory `/workspace`, although you can complete the installation from any directory you wish.
+Alternatively, we can install LEDetection and its dependencies using an Anaconda environment. For the sake of clarity, we assume all installation steps are conducted from the directory `/workspace`, although you can complete the installation from any directory you wish.
 
 **Step 1.** Download and install Anaconda from the [official website](https://www.anaconda.com/products/distribution).
 
-**Step 2.** Clone the `ledetecion` repository into `/workspace`.
+**Step 2.** Clone the `ledetection` repository into `/workspace`.
 
 ```bash
 cd /workspace \
@@ -94,7 +94,7 @@ cd ledetection \
     && mkdir results work_dirs
 ```
 
-**Step 3.** Clone `mmdetection` into `/workspace` to enable access to the `mmdetection` configuration files, which are needed for training models.
+**Step 3.** Clone `mmdetection` into `/workspace` to enable access to the `mmdetection` configuration files, which are needed for training models. We support `mmdetection>=2.16.0,<=2.28.0`.
 
 ```bash
 cd /workspace \

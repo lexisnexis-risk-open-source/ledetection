@@ -45,12 +45,14 @@ Following MMDetection usage, we train and evaluate detection models via configur
 | [faster\_rcnn\_r50\_caffe\_fpn\_coco\_30shot.py](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/configs/few_shot/faster_rcnn_r50_caffe_fpn_coco_30shot.py) | COCO 2017 | N/A | Few-Shot |
 
 ### Train on a Single GPU
-We use the `tools/train.py` utility to launch model training on a single GPU. An example usage is as follows.
+We use the `tools/dist_train.sh` utility to launch model training on a single GPU. An example usage is as follows.
 
 ```bash
 # Execute from project working directory `~/ledetection`.
-python tools/train.py \
-    configs/supervised/faster_rcnn_r50_caffe_fpn_voc07.py
+export CUDA_VISIBLE_DEVICES=0
+bash tools/dist_train.sh \
+    configs/supervised/faster_rcnn_r50_caffe_fpn_voc07.py \
+    1
 ```
 
 During training, log files and checkpoints will be saved to the working directory, which is specified by `work_dir` in the config file. Recall that we created a new `./work_dirs` directory during our workspace setup, so in our configs, `work_dir = "work_dirs/"`.
@@ -63,17 +65,8 @@ The model can be configured to evaluate on the validation set every `interval` e
 evaluation = dict(interval=4000, metric="mAP")
 ```
 
-### Train on CPU
-To train on the CPU, for debugging purposes on machines without GPU, simply disable GPUs before launching the job.
-
-```bash
-export CUDA_VISIBLE_DEVICES=-1
-python tools/train.py \
-    configs/supervised/faster_rcnn_r50_caffe_fpn_voc07.py
-```
-
 ### Train on Multiple GPUs
-We use `tools/dist_train.sh` to launch model training on multiple GPUs, leveraging efficient Distributed Data Parallelism (DDP). An example usage to train on 8 GPUs is as follows.
+Analogously, we use `tools/dist_train.sh` to launch model training on multiple GPUs, leveraging efficient Distributed Data Parallelism (DDP). An example usage to train on 8 GPUs is as follows.
 
 ```bash
 # Execute from project working directory `~/ledetection`.
