@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/teaser.png" /></p>
 
 # LEDetection: Label-Efficient Object Detection
-<span><img src="https://img.shields.io/badge/license-Apache 2.0-blue" /> <img src="https://img.shields.io/badge/python->=3.7-brightgreen" /> <img src="https://img.shields.io/badge/pytorch->=1.6.0-orange" /> <img src="https://img.shields.io/badge/%20-contributions%20welcome-5429E6" /></span>
+<span><img src="https://img.shields.io/badge/license-Apache 2.0-ff69b4"/> <img src="https://img.shields.io/badge/python->=3.7-brightgreen"/> <img src="https://img.shields.io/badge/pytorch->=1.6.0-orange"/> <a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="DOI"></a> <img src="https://img.shields.io/badge/%20-contributions%20welcome-5429E6"/></span>
 
 ## Why LEDetection?
 LEDetection (French pronounciation as `leuh` detection), short for *label-efficient object detection*, is an open-source toolbox focused on semi-supervised and few-shot object detection, both of which are important and emerging topics in computer vision. LEDetection enables modern detection systems to do more with less hand-labeled data, thereby alleviating the dependency on large amounts of instance-level class annotations and bounding boxes.
@@ -39,6 +39,11 @@ Getting started is quick and easy:
 1. Please refer to this [installation guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/installation.md);
 2. Have fun with this [quickstart guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/quickstart.md).
 
+## Datasets and Models
+<a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="DOI"></a>
+
+We provide the semi-supervised and few-shot datasets used in our [paper](https://arxiv.org/abs/2303.05739), along with pre-trained models, via the Zenodo link above.
+
 ## License
 We release LEDetection under the permissive Apache 2.0 license. Any contributions made will also be subject to the same licensing.
 
@@ -57,7 +62,7 @@ and many other projects by the broader CV/ML communities, without which this pro
 If you find this work useful, consider citing the related paper:
 
 ```
-@inproceedings{TranSeeFewerDetection,
+@inproceedings{TranLEDetection,
   title="{Boosting Semi-Supervised Few-Shot Object Detection with SoftER Teacher}",
   author={Tran, Phi Vu},
   howpublished={https://arxiv.org/abs/2303.05739},
