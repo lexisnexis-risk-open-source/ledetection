@@ -2,9 +2,9 @@ _base_ = "../_base_/semi_supervised_voc.py"
 dataset_type = "VOCDataset"
 data_root = "data/VOCdevkit/"
 CLASSES = (
-    "bicycle", "bird", "boat", "bus", "car", "cat", "chair",
-    "diningtable", "dog", "motorbike", "person", "pottedplant",
-    "sheep", "train", "tvmonitor"
+    "aeroplane", "bicycle", "bird", "bottle", "bus", "car",
+    "chair", "cow", "diningtable", "dog", "horse", "person",
+    "pottedplant", "train", "tvmonitor"
 )
 model = dict(
     backbone=dict(
@@ -12,8 +12,9 @@ model = dict(
         norm_eval=True,
         frozen_stages=1,
         style="caffe",
+        depth=101,
         init_cfg=dict(
-            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet50_caffe"
+            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet101_caffe"
         ),
     ),
     roi_head=dict(

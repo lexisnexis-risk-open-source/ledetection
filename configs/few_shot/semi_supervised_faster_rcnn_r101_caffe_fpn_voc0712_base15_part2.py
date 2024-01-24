@@ -12,8 +12,9 @@ model = dict(
         norm_eval=True,
         frozen_stages=1,
         style="caffe",
+        depth=101,
         init_cfg=dict(
-            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet50_caffe"
+            type="Pretrained", checkpoint="open-mmlab://detectron2/resnet101_caffe"
         ),
     ),
     roi_head=dict(
