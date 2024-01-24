@@ -67,17 +67,12 @@ data = dict(
         ),
         unsup=dict(
             type="RepeatDataset",
-            times=3,
+            times=1,
             dataset=dict(
                 type="CocoDataset",
-                classes=(
-                    "bicycle", "bird", "boat", "bus", "car", "cat", "chair",
-                    "dining table", "dog", "motorcycle", "person", "potted plant",
-                    "sheep", "train", "tv"
-                ),
                 ann_file="data/coco/annotations/instances_train2017.json",
                 img_prefix="data/coco/train2017/",
-                filter_empty_gt=True,
+                filter_empty_gt=False,
             )
         )
     ),
