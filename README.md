@@ -31,7 +31,7 @@ LEDetection models can be re-purposed into label-efficient few-shot detectors fo
 
 **Semi-Supervised Few-Shot Detection**
 
-Why not combine both semi-supervised and few-shot training protocols, on datasets with limited labels, to enable semi-supervised few-shot detection, as described in our [paper](https://arxiv.org/abs/2303.05739)? See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/configs/semi_few_shot).
+Why not combine both semi-supervised and few-shot training protocols, on datasets with limited labels, to enable semi-supervised few-shot detection, as described in our [AISTATS 2024 paper](https://arxiv.org/abs/2303.05739)? See [example configs](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/configs/semi_few_shot).
 
 ## Get Started
 Getting started is quick and easy:
@@ -39,10 +39,12 @@ Getting started is quick and easy:
 1. Please refer to this [installation guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/installation.md);
 2. Have fun with this [quickstart guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/quickstart.md).
 
-## Datasets and Models
+## Datasets, Models, and Reproducibility
 <a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="DOI"></a>
 
-We provide the semi-supervised and few-shot datasets used in our [paper](https://arxiv.org/abs/2303.05739), along with pre-trained models, via the Zenodo link above.
+Please refer to this [aistats2024 documentation](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/aistats2024.md) for a guide to reproduce the results reported in Tables 1-3 of our [AISTATS 2024 paper](https://arxiv.org/abs/2303.05739).
+
+We provide the semi-supervised and few-shot datasets, along with pre-trained models, via the Zenodo link above.
 
 ## License
 We release LEDetection under the permissive Apache 2.0 license. Any contributions made will also be subject to the same licensing.
@@ -63,9 +65,11 @@ If you find this work useful, consider citing the related paper:
 
 ```
 @inproceedings{TranLEDetection,
-  title="{Boosting Semi-Supervised Few-Shot Object Detection with SoftER Teacher}",
-  author={Tran, Phi Vu},
-  howpublished={https://arxiv.org/abs/2303.05739},
-  year={2023}
+  title="{LEDetection: A Simple Framework for Semi-Supervised Few-Shot Object Detection}",
+  author={Phi Vu Tran},
+  booktitle="{Proceedings of the 27th International Conference on Artificial Intelligence and Statistics (AISTATS)}",
+  publisher={PMLR},
+  volume={238},
+  year={2024}
 }
 ```
