@@ -1,7 +1,7 @@
 <p align="center"><img src="assets/teaser.png" /></p>
 
 # LEDetection: Label-Efficient Object Detection
-<span><img src="https://img.shields.io/badge/license-Apache 2.0-ff69b4"/> <img src="https://img.shields.io/badge/python->=3.7-brightgreen"/> <img src="https://img.shields.io/badge/pytorch->=1.6.0-orange"/> <a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="DOI"></a> <img src="https://img.shields.io/badge/%20-contributions%20welcome-5429E6"/></span>
+<span><img src="https://img.shields.io/badge/license-Apache 2.0-ff69b4"/> <img src="https://img.shields.io/badge/python->=3.7-brightgreen"/> <img src="https://img.shields.io/badge/pytorch->=1.6.0-orange"/> <a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="Data"></a> <img src="https://img.shields.io/badge/%20-contributions%20welcome-5429E6"/></span>
 
 ## Why LEDetection?
 LEDetection (French pronounciation as `leuh` detection), short for *label-efficient object detection*, is an open-source toolbox focused on semi-supervised and few-shot object detection, both of which are important and emerging topics in computer vision. LEDetection enables modern detection systems to do more with less hand-labeled data, thereby alleviating the dependency on large amounts of instance-level class annotations and bounding boxes.
@@ -40,9 +40,9 @@ Getting started is quick and easy:
 2. Have fun with this [quickstart guide](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/quickstart.md).
 
 ## Datasets, Models, and Reproducibility
-<a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="DOI"></a>
+<a href="https://doi.org/10.5281/zenodo.8007045"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8007045.svg" alt="Data"></a>
 
-Please refer to this [aistats2024 documentation](https://github.com/lexisnexis-risk-open-source/ledetection/blob/main/docs/aistats2024.md) for a guide to reproduce the results reported in Tables 1-3 of our [AISTATS 2024 paper](https://arxiv.org/abs/2303.05739).
+Refer to this [aistats2024 documentation](https://github.com/lexisnexis-risk-open-source/ledetection/tree/main/docs/aistats2024) for a guide to reproduce the results reported in Tables 1-3 of our [AISTATS 2024 paper](https://arxiv.org/abs/2303.05739).
 
 We provide the semi-supervised and few-shot datasets, along with pre-trained models, via the Zenodo link above.
 
@@ -67,7 +67,7 @@ If you find this work useful, consider citing the related paper:
 @inproceedings{TranLEDetection,
   title="{LEDetection: A Simple Framework for Semi-Supervised Few-Shot Object Detection}",
   author={Phi Vu Tran},
-  booktitle="{Proceedings of the 27th International Conference on Artificial Intelligence and Statistics (AISTATS)}",
+  booktitle="{International Conference on Artificial Intelligence and Statistics (AISTATS)}",
   publisher={PMLR},
   volume={238},
   year={2024}
