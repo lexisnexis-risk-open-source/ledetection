@@ -186,7 +186,7 @@ where `--src2` is the path to the weights of the novel model obtained in Step 2.
 
 
 ## Semi-Supervised Few-Shot Procedure
-To reproduce the results in Table 3 of our paper, follow the steps below, which are similar to the Few-Shot Procedure described above. For semi-supervised few-shot detection, base classes are constrained to be limited in quantity at {1, 5, 10} percent. These steps are performed only on the COCO dataset using the ResNet-101 backbone.
+To reproduce the results in Table 3 of our paper, follow the steps below, which are similar to the Few-Shot Procedure described above. For semi-supervised few-shot detection, the base classes are constrained to be limited in quantity at {1, 5, 10} percent. These steps are performed only on the COCO dataset using the ResNet-101 backbone.
 
 **Step 1: Semi-Supervised Base Pre-Training**
 
