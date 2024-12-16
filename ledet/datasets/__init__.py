@@ -6,6 +6,7 @@ from .pipelines import *
 from .pseudo_coco import PseudoCocoDataset
 from .voc import VOCDataset
 from .samplers import DistributedGroupSemiBalanceSampler
+from .lvis import LVISV1Dataset
 
 __all__ = [
     "build_dataset",
@@ -14,4 +15,5 @@ __all__ = [
     "PseudoCocoDataset",
     "VOCDataset",
     "DistributedGroupSemiBalanceSampler",
+    "LVISV1Dataset",
 ]
