@@ -56,6 +56,11 @@ def parse_args():
         action="store_true",
         help="For COCO models."
     )
+    parser.add_argument(
+        "--lvis",
+        action="store_true",
+        help="For LVIS models."
+    )
     args = parser.parse_args()
     return args
 
@@ -78,7 +83,7 @@ def ckpt_surgery(args):
             torch.nn.init.normal_(new_weight, 0, 0.01)
         else:
             new_weight = torch.zeros(tar_size)
-        if args.coco:
+        if args.coco or args.lvis:
             for idx, c in enumerate(BASE_CLASSES):
                 if "fc_cls" in param_name:
                     new_weight[IDMAP[c]] = pretrained_weight[idx]
@@ -114,7 +119,7 @@ def combine_ckpts(args):
             new_weight = torch.rand((tar_size, feat_size))
         else:
             new_weight = torch.zeros(tar_size)
-        if args.coco:
+        if args.coco or args.lvis:
             for idx, c in enumerate(BASE_CLASSES):
                 if "fc_cls" in param_name:
                     new_weight[IDMAP[c]] = pretrained_weight[idx]
@@ -126,7 +131,7 @@ def combine_ckpts(args):
             new_weight[:prev_cls] = pretrained_weight[:prev_cls]
 
         ckpt2_weight = ckpt2["state_dict"][weight_name]
-        if args.coco:
+        if args.coco or args.lvis:
             for i, c in enumerate(NOVEL_CLASSES):
                 if "fc_cls" in param_name:
                     new_weight[IDMAP[c]] = ckpt2_weight[i]
@@ -251,6 +256,15 @@ if __name__ == "__main__":
         ALL_CLASSES = sorted(BASE_CLASSES + NOVEL_CLASSES)
         IDMAP = {v: i for i, v in enumerate(ALL_CLASSES)}
         TAR_SIZE = 80
+    elif args.lvis:
+        # LVIS. Read category IDs from file.
+        tail_classes = "data/coco/annotations/lvis_v1_tail_ids337.txt"
+        head_classes = "data/coco/annotations/lvis_v1_head_ids866.txt"
+        NOVEL_CLASSES = sorted([int(line.strip("\n")) for line in open(tail_classes, "r").readlines()])
+        BASE_CLASSES = sorted([int(line.strip("\n")) for line in open(head_classes, "r").readlines()])
+        ALL_CLASSES = sorted(BASE_CLASSES + NOVEL_CLASSES)
+        IDMAP = {v: i for i, v in enumerate(ALL_CLASSES)}
+        TAR_SIZE = len(IDMAP)
     else:
         # VOC-like format
         TAR_SIZE = args.target_size
