@@ -1,0 +1,107 @@
+_base_ = "../_base_/semi_supervised_lvis_augmented_tail.py"
+dataset_type = "LVISV1Dataset"
+data_root = "data/coco/"
+CLASSES = data_root + "annotations/lvis_v1_tail_classes337.txt"
+pretrained = "torchvision://resnet50"
+model = dict(
+    backbone=dict(
+        depth=50,
+        norm_cfg=dict(requires_grad=False),
+        norm_eval=True,
+        frozen_stages=4,
+        style="pytorch",
+        init_cfg=dict(
+            type="Pretrained", checkpoint=pretrained,
+        ),
+    ),
+    neck=dict(frozen=True),
+    rpn_head=dict(frozen=True),
+    roi_head=dict(
+        bbox_head=dict(
+            frozen_layer_names=["shared_fcs"],
+            num_classes=337,
+        )
+    ),
+    test_cfg=dict(
+        rcnn=dict(
+            score_thr=0.0001,
+            # LVIS allows up to 300
+            max_per_img=300,
+        )
+    ),
+)
+semi_wrapper = dict(
+    type="${model_type}",
+    model="${model}",
+    train_cfg=dict(
+        use_teacher_proposal=False,
+        pseudo_label_initial_score_thr=0.5,
+        rpn_pseudo_threshold=0.9,
+        cls_pseudo_threshold=0.9,
+        reg_pseudo_threshold=0.02,
+        jitter_times=10,
+        jitter_scale=0.06,
+        min_pseudo_box_size=0,
+        unsup_weight_alpha=2.0,
+        unsup_weight_beta=1.0,
+        unsup_weight_warmup=1000,
+        debug_mode=False,
+        sim_cls_loss=dict(
+            type="CrossEntropySimilarityLoss",
+            reduction="mean",
+            loss_weight=1.0),
+        iou_bbox_loss=dict(
+            type="IoULoss",
+            reduction="mean",
+            loss_weight=1.0)),
+    test_cfg=dict(inference_on="teacher"),
+)
+data = dict(
+    samples_per_gpu=6,
+    workers_per_gpu=2,
+    train=dict(
+        sup=dict(
+            type="MultiImageMixDataset",
+            dataset=dict(
+                type="ClassBalancedDataset",
+                oversample_thr=1e-3,
+                dataset=dict(
+                    type=dataset_type,
+                    classes=CLASSES,
+                    ann_file=data_root + "annotations/lvis_v1_train.json",
+                    img_prefix=data_root, # LVIS v1 - image prefix specified in filename
+                    filter_empty_gt=True,
+                )
+            )
+        ),
+    ),
+    val=dict(
+        type=dataset_type,
+        classes=CLASSES,
+        ann_file=data_root + "annotations/lvis_v1_val.json",
+        img_prefix=data_root, # LVIS v1 - image prefix specified in filename
+        filter_empty_gt=True,
+    ),
+    test=dict(
+        type=dataset_type,
+        classes=CLASSES,
+        ann_file=data_root + "annotations/lvis_v1_val.json",
+        img_prefix=data_root, # LVIS v1 - image prefix specified in filename
+        filter_empty_gt=True,
+    ),
+    sampler=dict(
+        train=dict(
+            sample_ratio=[2, 4],
+            epoch_length=7330,
+        )
+    ),
+)
+model_type = "SoftERTeacher"
+evaluation = dict(type="SubModulesDistEvalHook", metric="bbox", interval=5000)
+optimizer = dict(type="SGD", lr=0.01, momentum=0.9, weight_decay=0.0001)
+lr_config = dict(_delete_=True, policy="fixed")
+runner = dict(_delete_=True, type="IterBasedRunner", max_iters=40000)
+checkpoint_config = dict(by_epoch=False, interval=5000, max_keep_ckpts=10)
+auto_resume = False
+load_from = "results/lvis_v1_head866/${model_type}/r50/model_reset_remove.pth"
+work_dir = "work_dirs/${cfg_name}/${model_type}/"
